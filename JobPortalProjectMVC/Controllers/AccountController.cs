@@ -1,10 +1,13 @@
 ﻿using JobPortalProjectMVC.Models;
 using JobPortalProjectMVC.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
+
 namespace JobPortalProjectMVC.Controllers
 {
+    
     public class AccountController : Controller
     {
         private readonly SignInManager<Users> signInManager;
@@ -16,6 +19,7 @@ namespace JobPortalProjectMVC.Controllers
             this.userManager = userManager;
         }
 
+        
         public IActionResult Login()
         {
             return View();

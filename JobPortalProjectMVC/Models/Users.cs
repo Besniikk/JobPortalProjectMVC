@@ -6,4 +6,5 @@ namespace JobPortalProjectMVC.Models
     {
         public string FullName { get; set; }
     }
+    
 }

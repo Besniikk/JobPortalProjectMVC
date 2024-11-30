@@ -9,6 +9,7 @@ namespace JobPortalProjectMVC.Data
         public AppDbContext(DbContextOptions options) : base(options) 
         {
         }
-
+        public DbSet<JobPost> JobPosts { get; set; }
     }
+    
 }

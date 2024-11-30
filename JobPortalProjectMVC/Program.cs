@@ -1,7 +1,10 @@
 using JobPortalProjectMVC.Data;
 using JobPortalProjectMVC.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace JobPortalProjectMVC
 {
@@ -13,6 +16,7 @@ namespace JobPortalProjectMVC
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+            
 
             builder.Services.AddDbContext<AppDbContext>(options =>
             options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -47,11 +51,16 @@ namespace JobPortalProjectMVC
 
             app.UseRouting();
 
+            app.UseAuthentication(); // Required for authentication
             app.UseAuthorization();
+
 
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
+            
+            app.MapControllers();    // Map API controllers
+            
 
             app.Run();
         }

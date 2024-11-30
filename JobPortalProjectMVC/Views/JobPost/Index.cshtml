@@ -1,0 +1,33 @@
+﻿@model IEnumerable<JobPortalProjectMVC.ViewModels.JobPostViewModel>
+
+<h2>Job Postings</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Job Title</th>
+            <th>Description</th>
+            <th>Salary</th>
+            <th>Location</th>
+            <th>Category</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <a href="@Url.Action("Create", "JobPost")" class="btn btn-secondary">Create New Job Post</a>
+        @foreach (var jobPost in Model)
+        {
+            <tr>
+                <td>@jobPost.JobTitle</td>
+                <td>@jobPost.Description</td>
+                <td>@jobPost.Salary</td>
+                <td>@jobPost.Location</td>
+                <td>@jobPost.Category</td>
+                <td>
+                    <a href="@Url.Action("Edit", "JobPost", new { id = jobPost.Id })" class="btn btn-warning">Edit</a>
+                    <a href="@Url.Action("Delete", "JobPost", new { id = jobPost.Id })" class="btn btn-danger">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

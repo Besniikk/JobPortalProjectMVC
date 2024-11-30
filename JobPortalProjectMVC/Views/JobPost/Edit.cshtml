@@ -1,0 +1,37 @@
+﻿@model JobPortalProjectMVC.ViewModels.JobPostViewModel
+
+<h2>Edit Job Posting</h2>
+
+<form asp-action="Edit">
+    <div class="form-group">
+        <label asp-for="JobTitle"></label>
+        <input asp-for="JobTitle" class="form-control" />
+        <span asp-validation-for="JobTitle" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Description"></label>
+        <textarea asp-for="Description" class="form-control"></textarea>
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Requirements"></label>
+        <textarea asp-for="Requirements" class="form-control"></textarea>
+        <span asp-validation-for="Requirements" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Salary"></label>
+        <input asp-for="Salary" type="number" step="0.01" class="form-control" />
+        <span asp-validation-for="Salary" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Location"></label>
+        <input asp-for="Location" class="form-control" />
+        <span asp-validation-for="Location" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Category"></label>
+        <input asp-for="Category" class="form-control" />
+        <span asp-validation-for="Category" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Save Changes</button>
+</form>
