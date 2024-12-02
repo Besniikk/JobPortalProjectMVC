@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace JobPortalProjectMVC.Controllers
 {
+    [Authorize(Roles = "Admin,Employer")]
     public class JobPostController : Controller
     {
         private readonly AppDbContext _context; 
@@ -17,14 +18,15 @@ namespace JobPortalProjectMVC.Controllers
             _context = context; 
         }
 
+        
         public IActionResult Create()
         {
             return View();
         }
-
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize]
+        
         public async Task<IActionResult> Create([Bind("JobTitle,Description,Requirements,Salary,Location,Category")] JobPostViewModel jobPost)//mos duhet mja shtu userid mas category
         {
 
@@ -47,6 +49,8 @@ namespace JobPortalProjectMVC.Controllers
             return View(jobPost);
            
         }
+        
+        [Authorize(Roles ="Admin,Employer,JobSeeker")]
         public IActionResult Index()
         {
             var jobPosts = _context.JobPosts.ToList(); // Get all job posts
@@ -70,7 +74,7 @@ namespace JobPortalProjectMVC.Controllers
         }
 
         // GET: JobPost/Edit/5
-        [Authorize]
+        
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -100,8 +104,6 @@ namespace JobPortalProjectMVC.Controllers
         // POST: JobPost/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize]
-
         public async Task<IActionResult> Edit(int id, [Bind("Id,JobTitle,Description,Requirements,Salary,Location,Category,PostedDate")] JobPostViewModel jobPost)
         {
             if (id != jobPost.Id)
@@ -148,7 +150,7 @@ namespace JobPortalProjectMVC.Controllers
         }
 
         // GET: JobPost/Delete/5
-        [Authorize]
+        
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -179,7 +181,6 @@ namespace JobPortalProjectMVC.Controllers
         // POST: JobPost/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [Authorize]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var jobPost = await _context.JobPosts.FindAsync(id);

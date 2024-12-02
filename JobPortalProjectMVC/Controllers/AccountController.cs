@@ -3,6 +3,8 @@ using JobPortalProjectMVC.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 
 namespace JobPortalProjectMVC.Controllers
@@ -12,11 +14,13 @@ namespace JobPortalProjectMVC.Controllers
     {
         private readonly SignInManager<Users> signInManager;
         private readonly UserManager<Users> userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
-        public AccountController(SignInManager<Users> signInManager, UserManager<Users> userManager)
+        public AccountController(SignInManager<Users> signInManager, UserManager<Users> userManager, RoleManager<IdentityRole> roleManager)
         {
             this.signInManager = signInManager;
             this.userManager = userManager;
+            _roleManager = roleManager;
         }
 
         
@@ -45,8 +49,14 @@ namespace JobPortalProjectMVC.Controllers
             return View(model);
         }
 
-        public IActionResult Register()
+        public async Task<IActionResult> RegisterAsync()
         {
+            var roles = await _roleManager.Roles
+            .Where(r => (r.Name != "Admin" && r.Name != "User"))
+            .Select(r => r.Name)
+            .ToListAsync();
+
+            ViewBag.Roles = roles;
             return View();
         }
 
@@ -55,6 +65,7 @@ namespace JobPortalProjectMVC.Controllers
         {
             if (ModelState.IsValid)
             {
+
                 Users users = new Users
                 {
                     FullName = model.Name,
@@ -65,6 +76,9 @@ namespace JobPortalProjectMVC.Controllers
                 var result = await userManager.CreateAsync(users, model.Password);
                 if (result.Succeeded)
                 {
+                    await userManager.AddClaimAsync(users, new Claim("FullName", model.Name));
+
+                    await userManager.AddToRoleAsync(users, model.SelectedRole);
                     return RedirectToAction("Login", "Account");
                 }
                 else
