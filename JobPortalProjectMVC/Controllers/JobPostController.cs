@@ -8,17 +8,20 @@ using Microsoft.EntityFrameworkCore;
 
 namespace JobPortalProjectMVC.Controllers
 {
-    [Authorize(Roles = "Admin,Employer")]
+    
+    [Authorize(Roles = "Admin,Employer,JobSeeker")]
     public class JobPostController : Controller
     {
-        private readonly AppDbContext _context; 
+        private readonly AppDbContext _context;
+        
 
         public JobPostController(AppDbContext context)
         {
-            _context = context; 
+            _context = context;
+          
         }
 
-        
+        [Authorize(Roles = "Admin,Employer")]
         public IActionResult Create()
         {
             return View();
@@ -26,7 +29,7 @@ namespace JobPortalProjectMVC.Controllers
         
         [HttpPost]
         [ValidateAntiForgeryToken]
-        
+        [Authorize(Roles = "Admin,Employer")]
         public async Task<IActionResult> Create([Bind("JobTitle,Description,Requirements,Salary,Location,Category")] JobPostViewModel jobPost)//mos duhet mja shtu userid mas category
         {
 
@@ -49,32 +52,36 @@ namespace JobPortalProjectMVC.Controllers
             return View(jobPost);
            
         }
-        
+
         [Authorize(Roles ="Admin,Employer,JobSeeker")]
         public IActionResult Index()
         {
-            var jobPosts = _context.JobPosts.ToList(); // Get all job posts
-            var JobModel = new List<JobPostViewModel>();
-
-            foreach (var item in jobPosts)
-            {
-                JobModel.Add(new JobPostViewModel
-                {
-                    Id = item.Id,
-                    Category = item.Category,
-                    JobTitle = item.JobTitle,
-                    Description = item.Description,
-                    Requirements = item.Requirements,
-                    Salary = item.Salary,
-                    Location = item.Location,
-                });
-            }
             
-            return View(JobModel);
+            var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+
+            bool isAdminOrJobSeeker = User.IsInRole("Admin") || User.IsInRole("JobSeeker");
+
+            var jobPosts = isAdminOrJobSeeker
+                ? _context.JobPosts.ToList() 
+                : _context.JobPosts.Where(i => i.UserId == userId).ToList();
+
+            var jobModel = jobPosts.Select(item => new JobPostViewModel
+            {
+                Id = item.Id,
+                Category = item.Category,
+                JobTitle = item.JobTitle,
+                Description = item.Description,
+                Requirements = item.Requirements,
+                Salary = item.Salary,
+                Location = item.Location,
+                PostedDate = item.PostedDate
+            }).ToList();
+
+            return View(jobModel);
         }
 
         // GET: JobPost/Edit/5
-        
+        [Authorize(Roles = "Admin,Employer")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -104,6 +111,7 @@ namespace JobPortalProjectMVC.Controllers
         // POST: JobPost/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin,Employer")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,JobTitle,Description,Requirements,Salary,Location,Category,PostedDate")] JobPostViewModel jobPost)
         {
             if (id != jobPost.Id)
@@ -150,7 +158,7 @@ namespace JobPortalProjectMVC.Controllers
         }
 
         // GET: JobPost/Delete/5
-        
+        [Authorize(Roles = "Admin,Employer")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -181,6 +189,7 @@ namespace JobPortalProjectMVC.Controllers
         // POST: JobPost/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin,Employer")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var jobPost = await _context.JobPosts.FindAsync(id);

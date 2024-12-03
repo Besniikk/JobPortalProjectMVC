@@ -31,7 +31,9 @@ namespace JobPortalProjectMVC.Models
         public DateTime PostedDate { get; set; }
 
         [ForeignKey("User")]
-        public string? UserId { get; set; }
+        //public string? UserId { get; set; }
+       
+        public string UserId { get; set; }
         [IgnoreDataMember]
         public virtual Users User { get; set; }
     }
