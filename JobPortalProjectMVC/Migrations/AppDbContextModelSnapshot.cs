@@ -22,6 +22,69 @@ namespace JobPortalProjectMVC.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("JobPortalProjectMVC.Models.JobApplication", b =>
+                {
+                    b.Property<int>("ApplicationId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ApplicationId"));
+
+                    b.Property<DateTime>("AppliedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CoverLetter")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<int>("JobPostId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("ApplicationId");
+
+                    b.HasIndex("JobPostId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("JobApplications");
+                });
+
+            modelBuilder.Entity("JobPortalProjectMVC.Models.JobComment", b =>
+                {
+                    b.Property<int>("CommentId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CommentId"));
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("JobPostId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("CommentId");
+
+                    b.HasIndex("JobPostId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("JobComments");
+                });
+
             modelBuilder.Entity("JobPortalProjectMVC.Models.JobPost", b =>
                 {
                     b.Property<int>("Id")
@@ -274,6 +337,44 @@ namespace JobPortalProjectMVC.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("JobPortalProjectMVC.Models.JobApplication", b =>
+                {
+                    b.HasOne("JobPortalProjectMVC.Models.JobPost", "JobPost")
+                        .WithMany("JobApplications")
+                        .HasForeignKey("JobPostId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("JobPortalProjectMVC.Models.Users", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("JobPost");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("JobPortalProjectMVC.Models.JobComment", b =>
+                {
+                    b.HasOne("JobPortalProjectMVC.Models.JobPost", "JobPost")
+                        .WithMany("JobComments")
+                        .HasForeignKey("JobPostId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("JobPortalProjectMVC.Models.Users", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("JobPost");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("JobPortalProjectMVC.Models.JobPost", b =>
                 {
                     b.HasOne("JobPortalProjectMVC.Models.Users", "User")
@@ -334,6 +435,13 @@ namespace JobPortalProjectMVC.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("JobPortalProjectMVC.Models.JobPost", b =>
+                {
+                    b.Navigation("JobApplications");
+
+                    b.Navigation("JobComments");
                 });
 #pragma warning restore 612, 618
         }

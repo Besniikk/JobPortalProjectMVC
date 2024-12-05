@@ -38,5 +38,9 @@ namespace JobPortalProjectMVC.Models
         public string UserId { get; set; }
         [IgnoreDataMember]
         public virtual Users User { get; set; }
+        public virtual ICollection<JobComment> JobComments { get; set; }
+        public virtual ICollection<JobApplication> JobApplications { get; set; }
+
+
     }
 }
