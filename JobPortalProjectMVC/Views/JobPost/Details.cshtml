@@ -1,0 +1,43 @@
+﻿@model JobPortalProjectMVC.ViewModels.DetailsViewModel
+@*
+    
+*@
+@{
+}
+
+<!--Page content -->
+<div class="container">
+    <h1 class="my-4">
+        Job Detail
+        <small>@Model.JobTitle</small>
+    </h1>
+
+    <div class="row">
+        <div class="col-md-8 mt-5">
+            <img class="img-fluid" src="@Model.ImagePath" alt="Job Image" width="80%" height="100px">
+        </div>
+
+        <div class="col-md-4">
+            <h3 class="my-3">Job Type</h3>
+            <p>@Model.JobTitle</p>
+
+            <h3 class="my-3">Description</h3>
+            <p>@Model.Description</p>
+
+            <h3 class="my-3">Requirements</h3>
+            <p>@Model.Requirements</p>
+
+            <h3 class="my-3">Salary</h3>
+            <p>@Model.Salary</p>
+
+            <h3 class="my-3">Location</h3>
+            <p>@Model.Location</p>
+
+            <h3 class="my-3">Category</h3>
+            <p>@Model.Category</p>
+
+
+            <button class="btn btn-primary my-3">Apply for this job</button>
+        </div>
+    </div>
+</div>

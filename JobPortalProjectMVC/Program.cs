@@ -1,5 +1,8 @@
 using JobPortalProjectMVC.Data;
+using JobPortalProjectMVC.Helpers;
+using JobPortalProjectMVC.Interfaces;
 using JobPortalProjectMVC.Models;
+using JobPortalProjectMVC.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -18,6 +21,8 @@ namespace JobPortalProjectMVC
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
+            builder.Services.AddScoped<IPhotoService, PhotoService>();
+            builder.Services.Configure<CloudinarySettings>(builder.Configuration.GetSection("CloudinarySettings"));
 
             builder.Services.AddDbContext<AppDbContext>(options =>
             options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));

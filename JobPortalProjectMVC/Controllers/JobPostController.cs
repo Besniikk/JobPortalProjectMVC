@@ -1,5 +1,7 @@
 ﻿using JobPortalProjectMVC.Data;
+using JobPortalProjectMVC.Interfaces;
 using JobPortalProjectMVC.Models;
+using JobPortalProjectMVC.Services;
 using JobPortalProjectMVC.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -13,12 +15,13 @@ namespace JobPortalProjectMVC.Controllers
     public class JobPostController : Controller
     {
         private readonly AppDbContext _context;
-        
+        private readonly IPhotoService _photoService;
 
-        public JobPostController(AppDbContext context)
+
+        public JobPostController(AppDbContext context, IPhotoService photoService)
         {
             _context = context;
-          
+            _photoService = photoService;
         }
 
         [Authorize(Roles = "Admin,Employer")]
@@ -26,30 +29,40 @@ namespace JobPortalProjectMVC.Controllers
         {
             return View();
         }
-        
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin,Employer")]
-        public async Task<IActionResult> Create([Bind("JobTitle,Description,Requirements,Salary,Location,Category")] JobPostViewModel jobPost)//mos duhet mja shtu userid mas category
+        public async Task<IActionResult> Create([Bind("JobTitle,Description,Requirements,Salary,Location,Category,Image")] JobPostViewModel jobPost)//mos duhet mja shtu userid mas category
         {
 
             if (ModelState.IsValid)
             {
-                var JobModel = new JobPost();
-                JobModel.Category = jobPost.Category;
-                JobModel.JobTitle  = jobPost.JobTitle;
-                JobModel.Description = jobPost.Description;
-                JobModel.Requirements = jobPost.Requirements;
-                JobModel.Salary = jobPost.Salary;
-                JobModel.Location = jobPost.Location;
-                JobModel.PostedDate = DateTime.Now;
-                JobModel.UserId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+                 var result = await _photoService.AddPhotoAsync(jobPost.Image); //to add a image or photoupload
+                if (result == null || string.IsNullOrEmpty(result.Url.ToString()))
+                {
+                    ModelState.AddModelError("Image", "Image upload failed. Please try again.");
+                    return View(jobPost);
+                }
 
-                _context.Add(JobModel);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                var JobModel = new JobPost();
+                    JobModel.Category = jobPost.Category;
+                    JobModel.JobTitle = jobPost.JobTitle;
+                    JobModel.Description = jobPost.Description;
+                    JobModel.Requirements = jobPost.Requirements;
+                    JobModel.Salary = jobPost.Salary;
+                    JobModel.Location = jobPost.Location;
+                    JobModel.Image = result.Url.ToString();
+                    JobModel.PostedDate = DateTime.Now;
+
+                    JobModel.UserId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+
+                    _context.Add(JobModel);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                
             }
-            return View(jobPost);
+                return View(jobPost);
            
         }
 
@@ -103,7 +116,6 @@ namespace JobPortalProjectMVC.Controllers
             _obj.Requirements = jobPost.Requirements;
             _obj.Salary = jobPost.Salary;
             _obj.Location = jobPost.Location;
-
             
             return View(_obj);
         }
@@ -182,7 +194,6 @@ namespace JobPortalProjectMVC.Controllers
             _obj.Requirements = jobPost.Requirements;
             _obj.Salary = jobPost.Salary;
             _obj.Location = jobPost.Location;
-
             return View(_obj);
         }
 
@@ -202,5 +213,31 @@ namespace JobPortalProjectMVC.Controllers
         {
             return _context.JobPosts.Any(e => e.Id == id);
         }
+
+        public async Task<IActionResult> Details(int? id)
+        {
+            var jobPost = await _context.JobPosts
+                .Where(j => j.Id == id)
+                .Select(j => new DetailsViewModel
+                {
+                    JobTitle = j.JobTitle,
+                    Description = j.Description,
+                    Salary = j.Salary,
+                    Requirements = j.Requirements,
+                    Location = j.Location,
+                    Category = j.Category,
+                    PostedDate = j.PostedDate,
+                    ImagePath = j.Image // Adjust field names as needed
+                })
+                .FirstOrDefaultAsync();
+
+            if (jobPost == null)
+            {
+                return NotFound();
+            }
+
+            return View(jobPost);
+        }
     }
+
 }

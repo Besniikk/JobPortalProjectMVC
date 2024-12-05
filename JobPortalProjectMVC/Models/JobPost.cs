@@ -30,6 +30,8 @@ namespace JobPortalProjectMVC.Models
 
         public DateTime PostedDate { get; set; }
 
+        public string Image { get; set; }
+
         [ForeignKey("User")]
         //public string? UserId { get; set; }
        
