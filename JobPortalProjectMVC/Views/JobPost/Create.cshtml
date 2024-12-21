@@ -1,43 +1,77 @@
-﻿@model JobPortalProjectMVC.ViewModels.JobPostViewModel
+﻿@model JobPortalProjectMVC.ViewModels.CreateJobViewModelcs
 
-<h2>Post a New Job</h2>
-<form asp-action="Create" enctype="multipart/form-data" method="post">
-    <div class="form-group">
-        <label asp-for="JobTitle"></label>
-        <input asp-for="JobTitle" class="form-control" />
-        <span asp-validation-for="JobTitle" class="text-danger"></span>
+<h2>Advanced Job Management</h2>
+
+<div class="container py-4">
+    <!-- Job Form Section -->
+    <div class="card mb-5">
+        <div class="card-header bg-primary text-white">Create / Edit Job</div>
+        <div class="card-body">
+            <form asp-action="Create" enctype="multipart/form-data" method="post">
+                <!-- Hidden ID for editing -->
+                <input type="hidden" asp-for="Id" />
+
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label asp-for="JobTitle">Job Title</label>
+                        <input asp-for="JobTitle" class="form-control" placeholder="Enter job title" />
+                        <span asp-validation-for="JobTitle" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label asp-for="Category">Category</label>
+                        <select asp-for="Category" class="form-control">
+                            <option value="">Select a category</option>
+                            <option value="IT">IT</option>
+                            <option value="Marketing">Marketing</option>
+                            <option value="Finance">Finance</option>
+                            <option value="Engineering">Engineering</option>
+                            <!-- Add more categories dynamically -->
+                        </select>
+                        <span asp-validation-for="Category" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label asp-for="Location">Location</label>
+                        <input asp-for="Location" class="form-control" placeholder="Enter job location" />
+                        <span asp-validation-for="Location" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label asp-for="Salary">Salary</label>
+                        <div class="input-group">
+                            <span class="input-group-text">$</span>
+                            <input asp-for="Salary" type="number" step="0.01" class="form-control" placeholder="Enter salary amount" />
+                        </div>
+                        <span asp-validation-for="Salary" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Description">Description</label>
+                    <textarea asp-for="Description" class="form-control" rows="4" placeholder="Provide a detailed description"></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Requirements">Requirements</label>
+                    <textarea asp-for="Requirements" class="form-control" rows="3" placeholder="List the requirements"></textarea>
+                    <span asp-validation-for="Requirements" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Image">Upload Image</label>
+                    <input asp-for="Image" type="file" class="form-control" />
+                    <small class="form-text text-muted">Recommended size: 800x600px</small>
+                    <span asp-validation-for="Image" class="text-danger"></span>
+                </div>
+
+                <div class="text-end">
+                    <button type="reset" class="btn btn-secondary">Reset</button>
+                    <button type="submit" class="btn btn-primary">Save Job</button>
+                </div>
+            </form>
+        </div>
     </div>
-    <div class="form-group">
-        <label asp-for="Description"></label>
-        <textarea asp-for="Description" class="form-control"></textarea>
-        <span asp-validation-for="Description" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Requirements"></label>
-        <textarea asp-for="Requirements" class="form-control"></textarea>
-        <span asp-validation-for="Requirements" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Salary"></label>
-        <input asp-for="Salary" type="number" step="0.01" class="form-control" />
-        <span asp-validation-for="Salary" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Location"></label>
-        <input asp-for="Location" class="form-control" />
-        <span asp-validation-for="Location" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Category"></label>
-        <input asp-for="Category" class="form-control" />
-        <span asp-validation-for="Category" class="text-danger"></span>
-        <br />
-    </div>
- 
-    <div class="form-group">
-        <label asp-for="Image">Image</label>
-        <input asp-for="Image" type="file" class="form-control" placeholder="Image">
-        <span asp-validation-for="Image" class="text-danger"></span>
-    </div>
-    <button type="submit" class="btn btn-primary">Post Job</button>
-</form>

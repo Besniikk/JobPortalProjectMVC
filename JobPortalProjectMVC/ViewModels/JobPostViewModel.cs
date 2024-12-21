@@ -28,9 +28,8 @@ namespace JobPortalProjectMVC.ViewModels
 
         public DateTime PostedDate { get; set; }
 
-        [Required]
-        public IFormFile Image { get; set; }
-        //public string ImagePath { get; set; }
+        public IFormFile? Image { get; set; }
+        public string ImagePath { get; set; }
 
         public string? UserId { get; set; } = null;
         //public string EmployerName { get; set; } // New field for employer name or email

@@ -1,47 +1,44 @@
 ﻿@model IEnumerable<JobPortalProjectMVC.ViewModels.JobPostViewModel>
 
-<h2>Job Postings</h2>
+<div class="album py-5 bg-body-tertiary">
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="mb-0">Job Postings</h2>
+            @if (!User.IsInRole("JobSeeker"))
+            {
+                <a href="@Url.Action("Create", "JobPost")" class="btn btn-sm btn-primary">+ New Job Post</a>
+            }
+        </div>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>Job Title</th>
-            <th>Description</th>
-            <th>Salary</th>
-            <th>Location</th>
-            <th>Category</th>
-            <th>Posted Date</th>
-
-        </tr>
-    </thead>
-    <tbody>
-        @if(!User.IsInRole("JobSeeker"))
-        {
-            <a href="@Url.Action("Create", "JobPost")" class="btn btn-secondary">Create New Job Post</a>
-        }
-        @foreach (var jobPost in Model)
-        {
-            <tr>
-                <td>@jobPost.JobTitle</td>
-                <td>@jobPost.Description</td>
-                <td>@jobPost.Salary</td>
-                <td>@jobPost.Location</td>
-                <td>@jobPost.Category</td>
-                <td>@jobPost.PostedDate</td>
-               
-
-                <td>
-                    @if(User.IsInRole("JobSeeker"))
-                    {
-                        <a href="@Url.Action("Details", "JobPost", new { id = jobPost.Id })" class="btn btn-danger">See details</a>
-                    }
-                    else
-                    {
-                        <a href="@Url.Action("Edit", "JobPost", new { id = jobPost.Id })" class="btn btn-warning">Edit</a>
-                        <a href="@Url.Action("Delete", "JobPost", new { id = jobPost.Id })" class="btn btn-danger">Delete</a>
-                    }
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+            @foreach (var jobPost in Model)
+            {
+                <div class="col">
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title">@jobPost.JobTitle</h5>
+                            <p class="card-text">@jobPost.Description</p>
+                            <p class="card-text"><strong>Salary:</strong> @jobPost.Salary</p>
+                            <p class="card-text"><strong>Location:</strong> @jobPost.Location</p>
+                            <p class="card-text"><strong>Category:</strong> @jobPost.Category</p>
+                            <p class="card-text"><small class="text-muted"><strong>Posted Date:</strong> @jobPost.PostedDate</small></p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="btn-group">
+                                    @if (User.IsInRole("JobSeeker"))
+                                    {
+                                        <a href="@Url.Action("Details", "JobPost", new { id = jobPost.Id })" class="btn btn-sm btn-outline-secondary">See Details</a>
+                                    }
+                                    else
+                                    {
+                                        <a href="@Url.Action("Edit", "JobPost", new { id = jobPost.Id })" class="btn btn-sm btn-warning">Edit</a>
+                                        <a href="@Url.Action("Delete", "JobPost", new { id = jobPost.Id })" class="btn btn-sm btn-danger">Delete</a>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
