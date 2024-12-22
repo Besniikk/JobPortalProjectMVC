@@ -2,7 +2,106 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="home-page">
+    <!-- Hero Section -->
+    <div class="hero bg-primary text-white text-center py-5">
+        <div class="container">
+            <h1 class="display-3 fw-bold">Welcome to Job Portal</h1>
+            <p class="lead mt-3">
+                Discover your dream job or find the perfect candidate with our advanced, user-friendly platform.
+            </p>
+            <div class="mt-4">
+                <a href="https://learn.microsoft.com/aspnet/core" class="btn btn-lg btn-outline-light fw-bold" target="_blank">Learn ASP.NET Core</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- About Section -->
+    <div class="about-section py-5 bg-light">
+        <div class="container text-center">
+            <h2 class="fw-bold">Why Choose Job Portal?</h2>
+            <p class="text-muted mt-3 fs-5">
+                Job Portal connects job seekers and employers with seamless tools, creating a bridge to meaningful careers and outstanding hires.
+            </p>
+            <div class="row mt-5">
+                <div class="col-md-4 text-center">
+                    <i class="bi bi-globe2 display-4 text-primary"></i>
+                    <h5 class="mt-3 fw-bold">Global Reach</h5>
+                    <p class="text-muted">Find jobs or talent from across the globe, tailored to your needs.</p>
+                </div>
+                <div class="col-md-4 text-center">
+                    <i class="bi bi-speedometer display-4 text-success"></i>
+                    <h5 class="mt-3 fw-bold">Efficiency</h5>
+                    <p class="text-muted">Smart filtering, advanced search, and easy-to-use features.</p>
+                </div>
+                <div class="col-md-4 text-center">
+                    <i class="bi bi-shield-check display-4 text-warning"></i>
+                    <h5 class="mt-3 fw-bold">Security</h5>
+                    <p class="text-muted">Your data and privacy are our top priority with state-of-the-art encryption.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Features Section -->
+    <div class="features-section py-5">
+        <div class="container">
+            <h2 class="text-center fw-bold mb-4">Explore Our Features</h2>
+            <div class="row row-cols-1 row-cols-md-3 g-4">
+                <div class="col">
+                    <div class="card border-0 shadow-sm">
+                        <div class="card-body text-center">
+                            <i class="bi bi-briefcase-fill display-4 text-primary"></i>
+                            <h5 class="card-title mt-3">Diverse Job Listings</h5>
+                            <p class="card-text text-muted">Thousands of jobs across industries and locations.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card border-0 shadow-sm">
+                        <div class="card-body text-center">
+                            <i class="bi bi-person-bounding-box display-4 text-success"></i>
+                            <h5 class="card-title mt-3">Candidate Profiles</h5>
+                            <p class="card-text text-muted">Comprehensive resumes to match your ideal candidate.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card border-0 shadow-sm">
+                        <div class="card-body text-center">
+                            <i class="bi bi-chat-dots-fill display-4 text-warning"></i>
+                            <h5 class="card-title mt-3">Employer Support</h5>
+                            <p class="card-text text-muted">Tools and insights to attract top talent effectively.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Call to Action Section -->
+    <div class="cta-section py-5 bg-primary text-white text-center">
+        <div class="container">
+            <h2 class="fw-bold">Start Your Journey Today!</h2>
+            <p class="fs-5 mt-3">
+                Whether you're looking for a job or hiring top talent, we have the tools you need to succeed.
+            </p>
+            <div class="mt-4">
+                <a href="@Url.Action("Register", "Account")" class="btn btn-lg btn-light text-primary me-3 fw-bold">Sign Up</a>
+                <a href="@Url.Action("Login", "Account")" class="btn btn-lg btn-outline-light fw-bold">Log In</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="py-4 bg-dark text-white">
+        <div class="container text-center">
+            <p class="mb-1">© 2024 Job Portal. All Rights Reserved.</p>
+            <div class="d-flex justify-content-center">
+                <a href="#" class="text-white text-decoration-none mx-3">Privacy Policy</a>
+                <a href="#" class="text-white text-decoration-none mx-3">Terms of Service</a>
+                <a href="https://learn.microsoft.com/aspnet/core" class="text-white text-decoration-none mx-3" target="_blank">ASP.NET Core Docs</a>
+            </div>
+        </div>
+    </footer>
 </div>

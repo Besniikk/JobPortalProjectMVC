@@ -71,7 +71,7 @@ namespace JobPortalProjectMVC.Controllers
         }
 
         [Authorize(Roles = "Admin,Employer,JobSeeker")]
-        public IActionResult Index()
+        public IActionResult Index(string searchQuery = "")
         {
 
             var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
@@ -79,8 +79,17 @@ namespace JobPortalProjectMVC.Controllers
             bool isAdminOrJobSeeker = User.IsInRole("Admin") || User.IsInRole("JobSeeker");
 
             var jobPosts = isAdminOrJobSeeker
-                ? _context.JobPosts.ToList()
-                : _context.JobPosts.Where(i => i.UserId == userId).ToList();
+                ? _context.JobPosts.AsQueryable()
+                : _context.JobPosts.Where(i => i.UserId == userId);
+
+            if (!string.IsNullOrEmpty(searchQuery))
+            {
+                jobPosts = jobPosts.Where(j => j.JobTitle.Contains(searchQuery) ||
+                                               j.Description.Contains(searchQuery) ||
+                                               j.Requirements.Contains(searchQuery) ||
+                                               j.Location.Contains(searchQuery) ||
+                                               j.Category.Contains(searchQuery));
+            }
 
             var jobModel = jobPosts.Select(item => new JobPostViewModel
             {
@@ -94,6 +103,7 @@ namespace JobPortalProjectMVC.Controllers
                 PostedDate = item.PostedDate
             }).ToList();
 
+            ViewBag.SearchQuery = searchQuery;
             return View(jobModel);
         }
 
