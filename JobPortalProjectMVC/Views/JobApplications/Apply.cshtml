@@ -1,0 +1,29 @@
+﻿@model JobPortalProjectMVC.ViewModels.JobApplicationViewModel
+
+@{
+    ViewData["Title"] = "Apply for Job";
+}
+
+<h1>Apply for Job</h1>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+}
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+}
+
+<form asp-action="Apply" asp-controller="JobApplications" method="post" >
+
+    <div class="form-group">
+        <label for="CoverLetter">Upload Cv Url</label>
+        <input type="text" name="CoverLetter" id="CoverLetter" class="form-control" asp-for="CoverLetter" required />
+    </div>
+
+
+    <br />
+    <input type="hidden" asp-for="JobPostId" value="@Model.JobPostId" />
+    <button type="submit" class="btn btn-primary">Submit Application</button>
+</form>

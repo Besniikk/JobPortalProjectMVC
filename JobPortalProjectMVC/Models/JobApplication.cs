@@ -6,6 +6,7 @@ namespace JobPortalProjectMVC.Models
 {
     public class JobApplication
     {
+
         [Key]
         public int ApplicationId { get; set; }
 
@@ -15,16 +16,16 @@ namespace JobPortalProjectMVC.Models
         [Required]
         public string UserId { get; set; }
 
-        public DateTime AppliedDate { get; set; } = DateTime.Now;
+        [Required]
+        public DateTime AppliedDate { get; set; } 
 
         [Required]
         [StringLength(500)]
         public string CoverLetter { get; set; }
-
-        [ForeignKey("JobPostId")]
+        
+        //[ForeignKey("UserId")]
+        
         public virtual JobPost JobPost { get; set; }
-
-        [ForeignKey("UserId")]
         public virtual Users User { get; set; }
     }
 }

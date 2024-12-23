@@ -32,10 +32,11 @@ namespace JobPortalProjectMVC.Models
 
         public string Image { get; set; }
 
-        [ForeignKey("User")]
+        [ForeignKey("User")] 
         //public string? UserId { get; set; }
        
         public string UserId { get; set; }
+
         [IgnoreDataMember]
         public virtual Users User { get; set; }
         public virtual ICollection<JobComment> JobComments { get; set; }

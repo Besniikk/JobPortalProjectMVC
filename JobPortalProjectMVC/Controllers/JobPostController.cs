@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace JobPortalProjectMVC.Controllers
 {
@@ -16,11 +17,13 @@ namespace JobPortalProjectMVC.Controllers
     {
         private readonly AppDbContext _context;
         private readonly IPhotoService _photoService;
+        private readonly UserManager<Users> _userManager;
 
 
-        public JobPostController(AppDbContext context, IPhotoService photoService)
+        public JobPostController(AppDbContext context, IPhotoService photoService, UserManager<Users> userManager)
         {
             _context = context;
+            _userManager = userManager;
             _photoService = photoService;
         }
 
@@ -164,7 +167,7 @@ namespace JobPortalProjectMVC.Controllers
                     JobModel.Salary = jobPost.Salary;
                     JobModel.Location = jobPost.Location;
                     JobModel.PostedDate = DateTime.Now;
-                    JobModel.Image = jobPost.ImagePath; 
+                    JobModel.Image = jobPost.ImagePath;
                     JobModel.UserId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
 
                     if (jobPost.Image != null)
@@ -182,7 +185,7 @@ namespace JobPortalProjectMVC.Controllers
                         JobModel.Image = jobPost.ImagePath; // Retain existing image
                     }
 
-                        _context.Update(JobModel);
+                    _context.Update(JobModel);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -259,6 +262,7 @@ namespace JobPortalProjectMVC.Controllers
                     Category = j.Category,
                     PostedDate = j.PostedDate,
                     ImagePath = j.Image // Adjust field names as needed
+
                 })
                 .FirstOrDefaultAsync();
 
@@ -268,7 +272,10 @@ namespace JobPortalProjectMVC.Controllers
             }
 
             return View(jobPost);
+            }
         }
+
+
     }
 
-}
+

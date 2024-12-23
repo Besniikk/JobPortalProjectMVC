@@ -1,11 +1,11 @@
 ﻿@model JobPortalProjectMVC.ViewModels.DetailsViewModel
+
 @*
-    
+
 *@
 @{
 }
 
-<!--Page content -->
 <div class="container">
     <h1 class="my-4">
         Job Detail
@@ -37,9 +37,11 @@
             <p>@Model.Category</p>
 
 
-            <button class="btn btn-primary my-3">Apply for this job</button>
+            <form asp-controller="JobApplications" asp-action="Apply" asp-route-jobPostId="@Model.Id" method="get">
+                <button type="submit" class="btn btn-primary">Apply</button>
+
+            </form>
+
         </div>
     </div>
 </div>
-
-

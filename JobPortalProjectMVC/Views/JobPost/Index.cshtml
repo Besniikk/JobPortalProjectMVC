@@ -31,16 +31,21 @@
                             <p class="card-text"><strong>Location:</strong> @jobPost.Location</p>
                             <p class="card-text"><strong>Category:</strong> @jobPost.Category</p>
                             <p class="card-text"><small class="text-muted"><strong>Posted Date:</strong> @jobPost.PostedDate</small></p>
+
+
+
                             <div class="d-flex justify-content-between align-items-center">
                                 <div class="btn-group">
                                     @if (User.IsInRole("JobSeeker"))
                                     {
-                                        <a href="@Url.Action("Details", "JobPost", new { id = jobPost.Id })" class="btn btn-sm btn-outline-secondary">See Details</a>
+                                        <a href="@Url.Action("Details", "JobPost", new { id = jobPost.Id })" class="btn btn-sm btn-danger">See Details</a>
+                                        <a href="@Url.Action("Apply", "JobApplications", new { jobPostId = jobPost.Id })" class="btn btn-sm btn-warning">Apply</a>
                                     }
                                     else
                                     {
                                         <a href="@Url.Action("Edit", "JobPost", new { id = jobPost.Id })" class="btn btn-sm btn-warning">Edit</a>
                                         <a href="@Url.Action("Delete", "JobPost", new { id = jobPost.Id })" class="btn btn-sm btn-danger">Delete</a>
+
                                     }
                                 </div>
                             </div>

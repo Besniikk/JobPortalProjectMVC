@@ -32,5 +32,7 @@ namespace JobPortalProjectMVC.ViewModels
         public string ImagePath { get; set; }
 
         public string? UserId { get; set; } = null;
+
+
     }
 }

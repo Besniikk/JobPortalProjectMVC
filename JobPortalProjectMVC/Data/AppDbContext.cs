@@ -34,8 +34,8 @@ namespace JobPortalProjectMVC.Data
                 .OnDelete(DeleteBehavior.Restrict); // Restrict delete
 
 
-            modelBuilder.Entity<JobApplication>()
-        .HasKey(ja => ja.ApplicationId);
+            /*modelBuilder.Entity<JobApplication>()
+            .HasKey(ja => ja.ApplicationId);
 
             modelBuilder.Entity<JobApplication>()
                 .HasOne(ja => ja.JobPost)
@@ -47,7 +47,7 @@ namespace JobPortalProjectMVC.Data
                 .HasOne(ja => ja.User)
                 .WithMany() // A User can submit multiple applications
                 .HasForeignKey(ja => ja.UserId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Restrict);*/
         }
 
 

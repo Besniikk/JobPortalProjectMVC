@@ -33,5 +33,6 @@ namespace JobPortalProjectMVC.ViewModels
 
         public string? UserId { get; set; } = null;
         //public string EmployerName { get; set; } // New field for employer name or email
+
     }
 }
