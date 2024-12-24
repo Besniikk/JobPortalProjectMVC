@@ -238,6 +238,7 @@ namespace JobPortalProjectMVC.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var jobPost = await _context.JobPosts.FindAsync(id);
+
             _context.JobPosts.Remove(jobPost);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
@@ -247,6 +248,27 @@ namespace JobPortalProjectMVC.Controllers
         {
             return _context.JobPosts.Any(e => e.Id == id);
         }
+
+        [Authorize(Roles = "Admin,Employer")]
+        public async Task<IActionResult> RemoveApplication(int id)
+        {
+            var jobApplication = await _context.JobApplications
+                .FirstOrDefaultAsync(ja => ja.ApplicationId == id);
+
+            if (jobApplication == null)
+            {
+                return NotFound();
+            }
+
+            // Remove the application
+            _context.JobApplications.Remove(jobApplication);
+            await _context.SaveChangesAsync();
+
+            // Redirect back to the index page
+            return RedirectToAction("Index");
+        }
+
+
 
         public async Task<IActionResult> Details(int? id)
         {

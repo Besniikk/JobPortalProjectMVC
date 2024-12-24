@@ -26,6 +26,10 @@
                 <td>@item.User.Email</td> <!-- Assuming User class has an Email property -->
                 <td>@item.AppliedDate</td>
                 <td>@item.CoverLetter</td>
+                <td>
+                    <a asp-action="RemoveApplication" asp-route-id="@item.ApplicationId" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this application?')">Delete</a>
+                </td>
+
             </tr>
         }
     </tbody>

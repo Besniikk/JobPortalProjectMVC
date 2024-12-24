@@ -11,7 +11,7 @@ using JobPortalProjectMVC.Areas.Identity.Pages;
 
 namespace JobPortalProjectMVC.Controllers
 {
-    [Authorize(Roles = "JobSeeker")]
+    
     public class JobApplicationsController : Controller
     {
         private readonly IWebHostEnvironment _hostEnvironment;
@@ -24,7 +24,7 @@ namespace JobPortalProjectMVC.Controllers
             _hostEnvironment = hostEnvironment;
             _userManager = userManager;
         }
-
+        [Authorize(Roles = "JobSeeker")]
         public async Task<IActionResult> Apply(int jobPostId)
         {
             // Check if jobPostId is valid
@@ -50,7 +50,7 @@ namespace JobPortalProjectMVC.Controllers
 
             return View(model);
         }
-
+        [Authorize(Roles = "JobSeeker")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Apply(JobApplicationViewModel model)
@@ -126,6 +126,39 @@ namespace JobPortalProjectMVC.Controllers
             }
 
             return View(model); // Return view with an error message if exception occurs
+        }
+
+        [Authorize(Roles = "Admin,Employer")]
+        public async Task<IActionResult> RemoveApplication(int id)
+        {
+            var jobApplication = await _context.JobApplications
+                .Include(ja => ja.User)
+                .FirstOrDefaultAsync(ja => ja.ApplicationId == id);
+
+            if (jobApplication == null)
+            {
+                return NotFound();
+            }
+
+            return View(jobApplication);
+        }
+
+        [HttpPost, ActionName("RemoveApplication")]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin,Employer")]
+        public async Task<IActionResult> RemoveConfirmed(int id)
+        {
+            var jobApplication = await _context.JobApplications
+                .FirstOrDefaultAsync(ja => ja.ApplicationId == id);
+
+            if (jobApplication == null)
+            {
+                return NotFound();
+            }
+
+            _context.JobApplications.Remove(jobApplication);
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Index", new { jobPostId = jobApplication.JobPostId });
         }
 
     }
