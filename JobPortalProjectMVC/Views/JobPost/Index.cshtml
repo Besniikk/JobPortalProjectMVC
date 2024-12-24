@@ -45,6 +45,8 @@
                                     {
                                         <a href="@Url.Action("Edit", "JobPost", new { id = jobPost.Id })" class="btn btn-sm btn-warning">Edit</a>
                                         <a href="@Url.Action("Delete", "JobPost", new { id = jobPost.Id })" class="btn btn-sm btn-danger">Delete</a>
+                                        <a asp-action="ViewApplications" asp-route-jobPostId="@jobPost.Id" class="btn btn-primary">View Applications</a>
+
 
                                     }
                                 </div>

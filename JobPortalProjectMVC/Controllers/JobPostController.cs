@@ -273,9 +273,17 @@ namespace JobPortalProjectMVC.Controllers
 
             return View(jobPost);
             }
+
+        public IActionResult ViewApplications(int jobPostId) 
+        { 
+            var jobApplications = _context.JobApplications
+                .Where(ja => ja.JobPostId == jobPostId)
+                .Include(ja => ja.User)
+                .ToList();
+            return View(jobApplications); 
         }
 
-
     }
+}
 
 

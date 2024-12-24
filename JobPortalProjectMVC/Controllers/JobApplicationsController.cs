@@ -128,7 +128,5 @@ namespace JobPortalProjectMVC.Controllers
             return View(model); // Return view with an error message if exception occurs
         }
 
-
-
     }
 }

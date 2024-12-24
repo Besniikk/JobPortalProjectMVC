@@ -51,7 +51,7 @@ namespace JobPortalProjectMVC.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("JobApplications");
+                    b.ToTable("JobApplications", (string)null);
                 });
 
             modelBuilder.Entity("JobPortalProjectMVC.Models.JobComment", b =>
@@ -82,7 +82,7 @@ namespace JobPortalProjectMVC.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("JobComments");
+                    b.ToTable("JobComments", (string)null);
                 });
 
             modelBuilder.Entity("JobPortalProjectMVC.Models.JobPost", b =>
@@ -132,7 +132,7 @@ namespace JobPortalProjectMVC.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("JobPosts");
+                    b.ToTable("JobPosts", (string)null);
                 });
 
             modelBuilder.Entity("JobPortalProjectMVC.Models.Users", b =>

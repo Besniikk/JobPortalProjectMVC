@@ -40,7 +40,9 @@ namespace JobPortalProjectMVC.Models
         [IgnoreDataMember]
         public virtual Users User { get; set; }
         public virtual ICollection<JobComment> JobComments { get; set; }
+
         public virtual ICollection<JobApplication> JobApplications { get; set; }
+
 
 
     }
