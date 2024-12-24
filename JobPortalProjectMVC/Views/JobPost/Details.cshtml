@@ -1,49 +1,58 @@
 ﻿@model JobPortalProjectMVC.ViewModels.DetailsViewModel
 
-@*
-
-*@
-@{
-}
-
 <div class="container">
-    <h1 class="my-4">
-        Job Detail
-        <small>@Model.JobTitle</small>
-    </h1>
+    <div class="my-5">
+        <h1 class="display-4 text-center">@Model.JobTitle</h1>
+    </div>
 
     <div class="row">
-        <div class="col-md-8 mt-5">
-            <img class="img-fluid" src="@Model.ImagePath" alt="Job Image" width="80%" height="100px">
+        <!-- Left Column: Job Image -->
+        <div class="col-md-6 mb-4">
+            <div class="card shadow">
+                <img class="card-img-top" src="@Model.ImagePath" alt="Job Image" style="max-height: 400px; object-fit: cover;">
+            </div>
         </div>
 
-        <div class="col-md-4">
-            <h3 class="my-3">Job Type</h3>
-            <p>@Model.JobTitle</p>
+        <!-- Right Column: Job Details -->
+        <div class="col-md-6">
+            <div class="card shadow p-4">
+                <h3 class="card-title">Job Details</h3>
+                <hr />
 
-            <h3 class="my-3">Description</h3>
-            <p>@Model.Description</p>
+                <p><strong>Job Type:</strong> @Model.JobTitle</p>
+                <p><strong>Description:</strong> @Model.Description</p>
+                <p><strong>Requirements:</strong> @Model.Requirements</p>
+                <p><strong>Salary:</strong> @Model.Salary</p>
+                <p><strong>Location:</strong> @Model.Location</p>
+                <p><strong>Category:</strong> @Model.Category</p>
 
-            <h3 class="my-3">Requirements</h3>
-            <p>@Model.Requirements</p>
+                <hr />
+                <!--  
+                <form asp-controller="JobApplications" asp-action="Apply" asp-route-jobPostId="@Model.Id" method="post">
+                    <button type="submit" class="btn btn-primary btn-block">Apply Now</button>
+                </form>
+                -->
+            </div>
+        </div>
+    </div>
 
-            <h3 class="my-3">Salary</h3>
-            <p>@Model.Salary</p>
-
-            <h3 class="my-3">Location</h3>
-            <p>@Model.Location</p>
-
-            <h3 class="my-3">Category</h3>
-            <p>@Model.Category</p>
-
-
-            <!--
-            <form asp-controller="JobApplications" asp-action="Apply" asp-route-jobPostId="@Model.Id" method="get">
-                <button type="submit" class="btn btn-primary">Apply</button>
-            </form>
-            -->
-
-
+    <div class="row mt-5">
+        <div class="col-12">
+            <div class="card shadow p-4">
+                <h3 class="card-title">Share this job</h3>
+                <hr />
+                <div class="d-flex justify-content-start">
+                    <a href="https://www.facebook.com/" class="btn btn-outline-primary me-3">
+                        <i class="fab fa-facebook-f"></i> Facebook
+                    </a>
+                    <a href="https://x.com/?lang=en" class="btn btn-outline-info me-3">
+                        <i class="fab fa-twitter"></i> Twitter
+                    </a>
+                    <a href="https://www.linkedin.com" class="btn btn-outline-danger">
+                        <i class="fab fa-linkedin-in"></i> LinkedIn
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
 </div>
