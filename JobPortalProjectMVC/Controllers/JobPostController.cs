@@ -41,7 +41,7 @@ namespace JobPortalProjectMVC.Controllers
 
             if (ModelState.IsValid)
             {
-                var result = await _photoService.AddPhotoAsync(jobPost.Image); //to add a image or photoupload
+                var result = await _photoService.AddPhotoAsync(jobPost.Image);
                 if (result == null || string.IsNullOrEmpty(result.Url.ToString()))
                 {
                     ModelState.AddModelError("Image", "Image upload failed. Please try again.");
@@ -133,7 +133,7 @@ namespace JobPortalProjectMVC.Controllers
             _obj.Requirements = jobPost.Requirements;
             _obj.Salary = jobPost.Salary;
             _obj.Location = jobPost.Location;
-            _obj.ImagePath = jobPost.Image; // Populate ImagePath
+            _obj.ImagePath = jobPost.Image;
 
             return View(_obj);
         }
@@ -178,11 +178,11 @@ namespace JobPortalProjectMVC.Controllers
                             ModelState.AddModelError("Image", "Image upload failed. Please try again.");
                             return View(jobPost);
                         }
-                        JobModel.Image = result.Url.ToString(); // Update with new image URL
+                        JobModel.Image = result.Url.ToString();
                     }
                     else
                     {
-                        JobModel.Image = jobPost.ImagePath; // Retain existing image
+                        JobModel.Image = jobPost.ImagePath;
                     }
 
                     _context.Update(JobModel);
@@ -260,11 +260,9 @@ namespace JobPortalProjectMVC.Controllers
                 return NotFound();
             }
 
-            // Remove the application
             _context.JobApplications.Remove(jobApplication);
             await _context.SaveChangesAsync();
 
-            // Redirect back to the index page
             return RedirectToAction("Index");
         }
 
@@ -283,7 +281,7 @@ namespace JobPortalProjectMVC.Controllers
                     Location = j.Location,
                     Category = j.Category,
                     PostedDate = j.PostedDate,
-                    ImagePath = j.Image // Adjust field names as needed
+                    ImagePath = j.Image
 
                 })
                 .FirstOrDefaultAsync();
